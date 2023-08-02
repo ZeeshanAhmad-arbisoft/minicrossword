@@ -6,6 +6,7 @@
 package minicrossword;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  *
@@ -120,9 +121,11 @@ public class Searcher
             Arrays.sort(posse, new WordSortbyNumPoss());
             // Reverts Words into strings so that they can be inserted into the
             // grid in the proper order
-            for(int i = 0; i < posse.length; i++)
+            Random rand = new Random();
+            for(int i = 0, j = 0; i < posse.length; i+=3, j++)
             {
-                poss[i] = posse[i].toString();
+                int randomIndex = i + rand.nextInt(Math.min(3, posse.length - i));
+                poss[j] = posse[randomIndex].toString();
             }
             // This loop creates the next level in the recursion.
             for(int i = 0; i < poss.length; i++)

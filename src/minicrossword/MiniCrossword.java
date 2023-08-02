@@ -22,7 +22,8 @@ public class MiniCrossword
         try
         {
         	//trying to only read in words from the word list that are ever actually used
-            Scanner CrosswordClues = new Scanner(new File("8word.game"));
+            //Scanner CrosswordClues = new Scanner(new File("8word.game"));
+            Scanner CrosswordClues = new Scanner(new File("5wordspell.game"));
             ArrayList<String> wordlist = new ArrayList<>();
             while(CrosswordClues.hasNext())
             {
@@ -43,7 +44,7 @@ public class MiniCrossword
         //4 letter words over 4000
         //and 5 letter words nearly 9000;
         //Yes, yes, but it's not over 9000, so shut up.
-        Crossword mine = new Crossword(8, 8, wordy);
+        Crossword mine = new Crossword(5, 5, wordy);
         // don't do this again, pichu took 18 min 19 sec to fully check
         // with print statements, 13 min 38 sec without.  No solution found
         // This is the cost of checking the entire tree of a 5x5 if there is
@@ -60,10 +61,10 @@ public class MiniCrossword
         // word, as the computation involves copying over an array to increase it.
         // Perhaps I should be working with ArrayLists, but this is what I
         // have right now.
-        mine.setWord(0, "trattled", true);
-        mine.setWord(1, "hemerine", true);
-        mine.setWord(2, "apotomes", true);
-        mine.setWord(3, "metapore", true);
+        mine.setWord(0, "aspen", true);
+        // mine.setWord(1, "hemerine", true);
+        // mine.setWord(2, "apotomes", true);
+        // mine.setWord(3, "metapore", true);
         System.out.println(Searcher.Search(mine));
         //On the other hand, when a word with a solution is put in, the answer
         //can be returned quite quickly.  When checking for a general solution
