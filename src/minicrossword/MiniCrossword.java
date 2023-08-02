@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 /**
  *
@@ -61,7 +62,8 @@ public class MiniCrossword
         // word, as the computation involves copying over an array to increase it.
         // Perhaps I should be working with ArrayLists, but this is what I
         // have right now.
-        mine.setWord(0, "aspen", true);
+        int randWordIndex = new Random().nextInt(wordy.length);
+        mine.setWord(0, wordy[randWordIndex], true);
         // mine.setWord(1, "hemerine", true);
         // mine.setWord(2, "apotomes", true);
         // mine.setWord(3, "metapore", true);
