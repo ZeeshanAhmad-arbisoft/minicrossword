@@ -1,0 +1,11 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "d:\\jar_files\\jackson-annotations-2.15.2.jar",
+        "d:\\jar_files\\jackson-core-2.15.2.jar",
+        "d:\\jar_files\\jackson-databind-2.15.2.jar",
+        "d:\\jar_files\\poi-5.2.3.jar",
+        "d:\\jar_files\\poi-ooxml-5.2.3.jar",
+        "d:\\jar_files\\poi-ooxml-lite-5.2.3.jar"
+    ]
+}

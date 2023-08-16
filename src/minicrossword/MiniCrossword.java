@@ -24,7 +24,7 @@ public class MiniCrossword
         {
         	//trying to only read in words from the word list that are ever actually used
             //Scanner CrosswordClues = new Scanner(new File("8word.game"));
-            Scanner CrosswordClues = new Scanner(new File("5wordspell.game"));
+            Scanner CrosswordClues = new Scanner(new File("5-withHints.game"));//5wordspell.game"));
             ArrayList<String> wordlist = new ArrayList<>();
             while(CrosswordClues.hasNext())
             {

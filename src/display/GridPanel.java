@@ -12,9 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -22,8 +25,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import grid.Letter;
 import minicrossword.Crossword;
+import minicrossword.JsonConvertObject;
 import minicrossword.Word;
 import minicrossword.WordSortbyNumPoss;
 import output.Exporter;
@@ -90,7 +96,7 @@ public class GridPanel extends JPanel implements MouseListener, KeyListener
 		masterlist4 = new String[word4al.size()];
 		word4al.toArray(masterlist4);
 		
-		words = new Scanner(this.getClass().getResourceAsStream("/wordlists/5sorted.game"));
+		words = new Scanner(this.getClass().getResourceAsStream("/wordlists/5-withHints.game"));
 		ArrayList<String> word5al = new ArrayList<>();
 		while(words.hasNext())
 		{
@@ -327,9 +333,136 @@ public class GridPanel extends JPanel implements MouseListener, KeyListener
 			return;
 		}
 		Letter[][] solution = searcher.Search(cross,oldgridletters).getGrid();
+		SaveSolutionToFileInJSON(solution);
 		updateFromLetterArray(solution);
 		repaint();
 	}
+
+
+	public void SaveSolutionToFileInJSON(Letter[][] curr)
+	{
+		Date date = new Date() ;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss") ;
+		
+		String filename = "Result-" + dateFormat.format(date) + ".json";
+		File file = new File("JsonResults\\"+filename);
+		
+		try 
+		{
+			var value = file.createNewFile();
+
+			var newData = Arrays.asList(curr);
+
+			if(value)
+			{
+				ArrayList<JsonConvertObject> jsnList = new ArrayList<JsonConvertObject>();
+
+				for(int i=0; i < 5; i++)
+				{
+					var dat = newData.get(i);
+					System.out.println(dat);
+
+					for(int j=0; j < 5; j++)
+					{
+						JsonConvertObject jsn = new JsonConvertObject();
+
+						jsn.row = i;
+						jsn.column = j;
+						jsn.value = dat[j].name();
+						jsnList.add(jsn);
+
+					}
+
+				}
+
+
+               //Getting the all the words from the data array
+
+				ArrayList<String> strArray = new ArrayList<String>();
+
+				for(int i=0; i < 5; i++)
+				{
+					String str = "";
+					
+					for(int j=0; j < 5; j++)
+					{
+						var val = curr[j][i];
+
+						if(val == Letter.BLANK || val == Letter.BLACK)
+						{
+							continue;
+						}
+						else
+						{
+							str += curr[j][i].toString();
+						}
+					}
+
+					// str.replace("$", "");
+					strArray.add(str);
+
+				}
+
+				for(int i=0; i < 5; i++)
+				{
+					String str = "";
+					
+					for(int j=0; j < 5; j++)
+					{
+						var val = curr[i][j];
+
+						if(val == Letter.BLANK || val == Letter.BLACK)
+						{
+							continue;
+						}
+						else
+						{
+							str += curr[i][j].toString();
+						}
+					}
+
+					// str.replace("$", "");
+					strArray.add(str);
+
+				}
+
+				ObjectMapper mapper = new ObjectMapper();
+
+				JsonConvertObject obj = new JsonConvertObject();
+
+				obj.row = 10;
+				obj.column = 10;
+				obj.value = "wordlist";
+				obj.wordsList = strArray;
+
+				jsnList.add(obj);
+
+				//Converting the Object to JSONString
+				String jsnString = mapper.writeValueAsString(jsnList);
+				System.out.println(jsnString);
+
+				//Converting the Object to JSONString
+				// String ArrayJsonString = mapper.writeValueAsString(strArray);
+				FileWriter fileWR = new FileWriter("JsonResults\\" + filename);
+				fileWR.write(jsnString);
+				fileWR.close();
+				System.out.println(jsnString);
+
+				
+			}
+
+
+		} 
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+
+	}
+
+
 
 	@Override
 	public void keyPressed(KeyEvent ke) 
