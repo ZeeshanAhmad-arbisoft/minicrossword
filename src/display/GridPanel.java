@@ -430,8 +430,8 @@ public class GridPanel extends JPanel implements MouseListener, KeyListener
 
 				JsonConvertObject obj = new JsonConvertObject();
 
-				obj.row = 10;
-				obj.column = 10;
+				obj.row = 5;
+				obj.column = 5;
 				obj.value = "wordlist";
 				obj.wordsList = strArray;
 
